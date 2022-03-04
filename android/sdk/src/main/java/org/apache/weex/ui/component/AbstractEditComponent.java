@@ -924,7 +924,7 @@ public abstract class AbstractEditComponent extends WXComponent<WXEditText> {
     }
     final Context context = host.getContext();
     if (context != null && context instanceof Activity) {
-      SoftKeyboardDetector.registerKeyboardEventListener((Activity) context, new SoftKeyboardDetector.OnKeyboardEventListener() {
+      mUnregister = SoftKeyboardDetector.registerKeyboardEventListener((Activity) context, new SoftKeyboardDetector.OnKeyboardEventListener() {
         @Override
         public void onKeyboardEvent(boolean isShown) {
           if (mListeningKeyboard) {
