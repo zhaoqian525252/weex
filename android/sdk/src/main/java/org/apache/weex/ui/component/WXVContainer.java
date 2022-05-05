@@ -18,8 +18,11 @@
  */
 package org.apache.weex.ui.component;
 
+import static android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO;
+
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.util.Pair;
@@ -197,6 +200,9 @@ public abstract class WXVContainer<T extends ViewGroup> extends WXComponent<T> {
     }
     if (getHostView() != null) {
       getHostView().setClipToPadding(false);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        getHostView().setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+      }
     }
   }
 

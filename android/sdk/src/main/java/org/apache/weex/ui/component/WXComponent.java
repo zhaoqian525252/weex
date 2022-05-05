@@ -18,6 +18,9 @@
  */
 package org.apache.weex.ui.component;
 
+import static android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO;
+import static android.view.View.IMPORTANT_FOR_ACCESSIBILITY_YES;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -855,6 +858,10 @@ public abstract class WXComponent<T extends View> extends WXBasicComponent imple
         String label = WXUtils.getString(param, "");
         setAriaLabel(label);
         return true;
+      case Constants.Name.ACCESSIBLE:
+        boolean accessible = WXUtils.getBoolean(param, false);
+        setAccessible(accessible);
+        return true;
       case Constants.Name.ARIA_HIDDEN:
         boolean isHidden = WXUtils.getBoolean(param, false);
         setAriaHidden(isHidden);
@@ -1308,7 +1315,7 @@ public abstract class WXComponent<T extends View> extends WXBasicComponent imple
   protected void setAriaHidden(boolean isHidden) {
     View host = getHostView();
     if (host != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      host.setImportantForAccessibility(isHidden ? View.IMPORTANT_FOR_ACCESSIBILITY_NO : View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+      host.setImportantForAccessibility(isHidden ? IMPORTANT_FOR_ACCESSIBILITY_NO : IMPORTANT_FOR_ACCESSIBILITY_YES);
     }
   }
 
@@ -1318,6 +1325,18 @@ public abstract class WXComponent<T extends View> extends WXBasicComponent imple
       host.setContentDescription(label);
     }
   }
+
+  protected void setAccessible(Boolean accessible) {
+    View host = getHostView();
+    if (host != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      if (accessible) {
+        getHostView().setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
+      } else {
+        getHostView().setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+      }
+    }
+  }
+
 
   protected void setRole(String roleKey) {
     View host = getHostView();
@@ -1464,7 +1483,7 @@ public abstract class WXComponent<T extends View> extends WXBasicComponent imple
         if(mHost.getId() == View.NO_ID)
           mHost.setId(WXViewUtils.generateViewId());
         if(TextUtils.isEmpty(mHost.getContentDescription()) && WXEnvironment.isApkDebugable()){
-          mHost.setContentDescription(getRef());
+       //   mHost.setContentDescription(getRef());
         }
         ComponentObserver observer;
         if ((observer = getInstance().getComponentObserver()) != null) {
