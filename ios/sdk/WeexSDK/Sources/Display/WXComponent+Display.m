@@ -148,7 +148,8 @@ typedef NS_ENUM(NSInteger, WXComponentBorderRecord) {
             CGFloat width = bounds.size.width ?: 1;
             CGFloat height = bounds.size.height ?: 1;
             CGSize size = CGSizeMake(width, height);
-            UIGraphicsBeginImageContextWithOptions(bounds.size, [sself _bitmapOpaqueWithSize:bounds.size] , 0.0);
+            UIGraphicsBeginImageContextWithOptions(size, [sself _bitmapOpaqueWithSize:size] , 0.0);
+            bounds.size = size;
             UIImage *image = [sself drawRect:bounds];
             if (!image) {
                 image = UIGraphicsGetImageFromCurrentImageContext();
@@ -262,8 +263,8 @@ typedef NS_ENUM(NSInteger, WXComponentBorderRecord) {
 
 - (CGContextRef)beginDrawContext:(CGRect)bounds
 {
-    CGFloat width = bounds.size.width ?: 1;
-    CGFloat height = bounds.size.height ?: 1;
+    CGFloat width = bounds.size.width ? bounds.size.width : 1;
+    CGFloat height = bounds.size.height ? bounds.size.height : 1;
     CGSize size = CGSizeMake(width, height);
     UIGraphicsBeginImageContextWithOptions(size, [self _bitmapOpaqueWithSize:size], 0.0);
     CGContextRef context = UIGraphicsGetCurrentContext();

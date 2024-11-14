@@ -953,8 +953,8 @@ static BOOL bNeedRemoveEvents = YES;
 
 - (UIImage *)imageFromLayer:(CALayer *)layer
 {
-    CGFloat width = layer.frame.size.width ?: 1;
-    CGFloat height = layer.frame.size.height ?: 1;
+    CGFloat width = layer.frame.size.width ? layer.frame.size.width : 1;
+    CGFloat height = layer.frame.size.height ? layer.frame.size.height : 1;
     CGSize size = CGSizeMake(width, height);
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     [layer renderInContext:UIGraphicsGetCurrentContext()];
